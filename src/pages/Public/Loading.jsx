@@ -6,7 +6,7 @@ export default function Loading() {
     <Alert
       color="info"
       variant="fill"
-      icon="false"
+      icon={false}
       sx={{
         flexDirection: "column",
         maxWidth: "500px",

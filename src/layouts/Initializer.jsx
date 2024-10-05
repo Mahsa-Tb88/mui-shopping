@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { appActions } from "../store/slices/appSlice";
-import { cartActions } from "../store/slices/cartSlice";
+
 import { useInitialize } from "../utils/queries";
 import { userActions } from "../store/slices/userSlice";
 import { Stack } from "@mui/material";
