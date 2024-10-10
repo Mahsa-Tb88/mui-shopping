@@ -14,11 +14,13 @@ import {
   Person,
   ShoppingCart,
 } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MyIconButton from "../Customized/MyIconButton";
 import { Link, NavLink } from "react-router-dom";
 import { appActions } from "../../store/slices/appSlice";
+import NavbarMenu from "./NavbarMenu";
+import NavbarDrawer from "./NavbarDrawer";
 
 export default function Navbar() {
   const isMobile = useSelector((state) => state.app.isMobile);
@@ -26,6 +28,7 @@ export default function Navbar() {
   const cart = useSelector((state) => state.cart);
   const [openMenu, setOpenMenu] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const menuAnchor = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -61,7 +64,7 @@ export default function Navbar() {
                 Home
               </Button>
               <Button variant="text" LinkComponent={NavLink} to="/shop">
-                Products
+                Shop
               </Button>
               <Button variant="text" LinkComponent={NavLink} to="/about">
                 About
@@ -70,7 +73,7 @@ export default function Navbar() {
           )}
           <Stack direction="row" spacing={3}>
             <MyIconButton onClick={() => setOpenMenu(!openMenu)}>
-              <Person />
+              <Person ref={menuAnchor} />
             </MyIconButton>
             <MyIconButton onClick={handleThemeChange}>
               {theme == "light" ? (
@@ -93,6 +96,16 @@ export default function Navbar() {
           </Stack>
         </Toolbar>
       </Container>
+
+      <NavbarMenu
+        open={openMenu}
+        handleClose={() => setOpenMenu(false)}
+        anchorEl={menuAnchor.current}
+      />
+      <NavbarDrawer
+        open={openDrawer}
+        closeHandler={() => setOpenDrawer(false)}
+      />
     </AppBar>
   );
 }

@@ -26,3 +26,15 @@ export function useInitialize() {
     queryFn: () => axios.get("/misc/initialize"),
   });
 }
+
+export function useProducts( page, limit, q, category, sort, order ) {
+  return useQuery({
+    queryKey: ["products", page, limit, q, category, sort, order],
+    queryFn: () =>
+      axios.get("/products/", {
+        params: { page, limit, q, category, sort, order },
+      }),
+  });
+}
+
+
