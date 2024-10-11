@@ -1,40 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  products: [],
-  totalProducts: 0,
-  isLoading: "",
-  category: "",
-  page: 1,
-  limit: 6,
-  q: "",
-  order: "dec",
-  sort: "_id",
+    products: [],
+    totalProducts: 0,
+    isLoading: false,
+    page: 1,
+    limit: 6,
+    q: "",
+    category: "",
+    sort: "_id",
+    order: "desc",
 };
 
 const shopSlice = createSlice({
-  name: "shop",
-  initialState,
-  reducers: {
-    setProducts(state, action) {
-      state.products = action.payload;
+    name: "shop",
+    initialState,
+    reducers: {
+        setProducts(state, action) {
+            state.products = action.payload;
+        },
+        setTotalProducts(state, action) {
+            state.totalProducts = action.payload;
+        },
+        setIsLoading(state, action) {
+            state.isLoading = action.isLoading;
+        },
+        setFilters(state, action) {
+            const payload = action.payload;
+            state.page = payload.page;
+            state.limit = payload.limit;
+            state.category = payload.category;
+            state.q = payload.q;
+            state.sort = payload.sort;
+            state.order = payload.order;
+        },
     },
-    setTotalProducts(state, action) {
-      state.totalProducts = action.payload;
-    },
-    setIsLoding(state, action) {
-      state.isLoading = action.payload;
-    },
-    setFilter(state, action) {
-      const payload = action.payload;
-      state.page = payload.page;
-      state.q = payload.q;
-      state.category = payload.category;
-      state.sort = payload.sort;
-      state.order = payload.order;
-      state.limit = payload.limit;
-    },
-  },
 });
 
 export default shopSlice;

@@ -15,6 +15,7 @@ export default function Shop() {
   const isMobile = useSelector((state) => state.app.isMobile);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
+  console.log("shop....", shop);
 
   const { isPending, data, error, refetch } = useProducts(
     shop.page,
@@ -33,7 +34,7 @@ export default function Shop() {
     const sort = searchParams.get("sort") || "_id";
     const order = searchParams.get("order") || "desc";
 
-    dispatch(shopActions.setFilter(page, limit, category, q, sort, order));
+    dispatch(shopActions.setFilters({ page, limit, category, q, sort, order }));
   }, [searchParams]);
 
   useEffect(() => {
