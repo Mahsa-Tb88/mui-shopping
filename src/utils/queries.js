@@ -27,8 +27,8 @@ export function useInitialize() {
   });
 }
 
-export function useProducts(page, limit, q, category, sort, order) {
-
+export function useProducts(page, q, category, limit, order, sort) {
+  console.log("query....", page, limit, q, category, sort, order);
   return useQuery({
     queryKey: ["products", page, limit, q, category, sort, order],
     queryFn: () =>
