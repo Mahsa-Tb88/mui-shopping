@@ -79,7 +79,7 @@ export default function ProductCard({ product }) {
         {cart.hasItem(product._id) ? (
           <Stack
             direction="row"
-            justifyContent="center"
+            justifyContent="space-between"
             alignItems="center"
             width={1}
           >
@@ -88,7 +88,7 @@ export default function ProductCard({ product }) {
             </MyIconButton>
             <Stack
               direction="row"
-              justifyContent="center"
+              justifyContent="space-between"
               alignItems="center"
               width={0.5}
             >

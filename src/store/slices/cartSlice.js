@@ -6,11 +6,11 @@ const initialState = {
     return this.items.length;
   },
   hasItem(id) {
-    return Boolean(this.items.find((item) => item.id === id));
+    return Boolean(this.items.find((item) => item._id == id));
   },
   getItemCount(id) {
-    const item = this.items.find((item) => item.id === id);
-    return item ? item.length : 0;
+    const item = this.items.find((item) => item._id == id);
+    return item ? item.count : 0;
   },
   getTotalPrice() {
     let total = 0;

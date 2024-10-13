@@ -37,3 +37,9 @@ export function useProducts(page, q, category, limit, order, sort) {
       }),
   });
 }
+export function useProductById(id) {
+  return useQuery({
+    queryKey: ["products", id],
+    queryFn: () => axios.get("/products/" + id),
+  });
+}
