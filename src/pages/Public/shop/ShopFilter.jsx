@@ -9,7 +9,6 @@ export default function ShopFilter() {
   const [searchParams, setSearchParams] = useSearchParams();
   const categories = useSelector((state) => state.app.categories);
   const shop = useSelector((state) => state.shop);
-  console.log(shop);
 
   function handleSearch() {
     const params = getNewSearchParams(searchParams, "q", search);

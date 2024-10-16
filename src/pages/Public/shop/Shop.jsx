@@ -15,7 +15,8 @@ export default function Shop() {
   const isMobile = useSelector((state) => state.app.isMobile);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
-  console.log("shop....", shop);
+  console.log("searchparams issss", searchParams.get("page"));
+  console.log("shop", shop);
 
   const { isPending, data, error, refetch } = useProducts(
     shop.page,
@@ -27,13 +28,13 @@ export default function Shop() {
   );
 
   useEffect(() => {
-    const page = parseInt(searchParams.get("page") || 1);
+    const page = parseInt(searchParams.get("page")) || 1;
+    console.log("searchparams....", searchParams.get("page"));
     const limit = parseInt(searchParams.get("limit") || 6);
     const category = searchParams.get("category") || "";
     const q = searchParams.get("q") || "";
     const sort = searchParams.get("sort") || "_id";
     const order = searchParams.get("order") || "desc";
-
     dispatch(shopActions.setFilters({ page, limit, category, q, sort, order }));
   }, [searchParams]);
 
@@ -41,6 +42,7 @@ export default function Shop() {
     if (data) {
       dispatch(shopActions.setProducts(data.data.body.products));
       dispatch(shopActions.setTotalProducts(data.data.body.count));
+
     }
   }, [data]);
 

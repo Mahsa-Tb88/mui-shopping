@@ -23,8 +23,6 @@ export default function Products() {
     setSearchParams(params);
   }
 
-  console.log(shop.products);
-
   if (!shop.products.length) {
     return <LoadingError message="Product not found!" />;
   }
