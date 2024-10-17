@@ -14,9 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../../store/slices/cartSlice";
 import MyIconButton from "../../../components/Customized/MyIconButton";
 import { Add, Delete, Remove } from "@mui/icons-material";
+import noImage from "../../../assets/images/no-image.jpg";
 
 export default function ProductCard({ product }) {
-  const noImage = "";
+  console.log(product);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
@@ -41,7 +42,8 @@ export default function ProductCard({ product }) {
     >
       <CardMedia
         sx={{ aspectRatio: 1, borderBottom: "var(--border)" }}
-        image={product.image ? SERVER_URL + product.image : noImage}
+        // image={product.image ? SERVER_URL + product.image : noImage}
+        image={noImage}
         title={product.title}
         component={Link}
         to={"/products/" + product._id}

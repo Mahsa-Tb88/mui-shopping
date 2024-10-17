@@ -12,7 +12,9 @@ export default function ShopFilter() {
 
   function handleSearch() {
     const params = getNewSearchParams(searchParams, "q", search);
-    delete params.page;
+    if (params.page == 1) {
+      delete params.page;
+    }
     setSearchParams(params, { replace: true });
   }
   useEffect(() => {
