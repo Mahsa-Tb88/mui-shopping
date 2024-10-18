@@ -8,6 +8,8 @@ axios.interceptors.response.use(
   (error) => {
     if (error.code == "ECONNABORTED" || error.code == "ERR_NETWORK") {
       error.message = "Error Connection";
+    } else if (error?.response?.data?.message) {
+      error.message = error.response.data.message;
     }
     return Promise.reject(error);
   }
