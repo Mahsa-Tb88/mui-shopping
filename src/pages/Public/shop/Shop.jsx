@@ -38,7 +38,6 @@ export default function Shop() {
     if (data) {
       dispatch(shopActions.setProducts(data.data.body.products));
       dispatch(shopActions.setTotalProducts(data.data.body.count));
-
     }
   }, [data]);
 
@@ -61,7 +60,14 @@ export default function Shop() {
             <Sidebar />
           </Grid2>
         )}
-        <Grid2 size={{ sx: 12, md: 8, lg: 9 }}>{content}</Grid2>
+        <Grid2
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          size={{ sx: 12, md: 8, lg: 9 }}
+        >
+          {content}
+        </Grid2>
       </Grid2>
     </Container>
   );

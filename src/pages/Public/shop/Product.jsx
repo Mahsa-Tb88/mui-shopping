@@ -26,7 +26,6 @@ export default function Product() {
   const cart = useSelector((state) => state.cart);
 
   const product = data?.data?.body ?? {};
-  console.log("product...", product);
 
   function incHandler() {
     dispatch(cartActions.incrementItem(product));
@@ -38,18 +37,11 @@ export default function Product() {
     dispatch(cartActions.deleteItem(product));
   }
 
-  // let myProduct;
-  // useEffect(() => {
-  //   if (data) {
-  //     myProduct = data.data.body;
-  //     console.log("myProduct....", myProduct);
-  //   }
-  // }, [data]);
   const navigate = useNavigate();
   let text, icon, handler;
   if (isPending) {
     return (
-      <Box>
+      <Box display="flex" justifyContent="center" alignItems="center">
         <Loading />
       </Box>
     );

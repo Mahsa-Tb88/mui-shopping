@@ -7,6 +7,7 @@ import PublicLayout from "../layouts/PublicLayout";
 import About from "../pages/Public/About";
 import Home from "../pages/Public/Home";
 import Product from "../pages/Public/shop/Product";
+import Cart from "../pages/Public/Cart";
 
 const publicRoutes = [
   {
@@ -23,6 +24,7 @@ const publicRoutes = [
           { path: "products/:id", element: <Product /> },
           { path: "login", element: <Login /> },
           { path: "Register", element: <Register /> },
+          { path: "cart", element: <Cart /> },
         ],
       },
     ],
