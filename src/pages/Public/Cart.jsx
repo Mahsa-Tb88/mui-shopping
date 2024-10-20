@@ -9,6 +9,7 @@ import { ChevronLeft } from "@mui/icons-material";
 export default function Cart() {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
+  document.title="Cart"
   return (
     <Container sx={{ mt: 4 }}>
       <Grid2 container>
