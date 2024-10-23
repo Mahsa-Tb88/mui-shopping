@@ -1,5 +1,5 @@
 import App from "../App";
-import Login from "../components/Login";
+import Login from "../pages/Public/Login";
 import Register from "../components/Register";
 import Shop from "../pages/Public/shop/Shop";
 
