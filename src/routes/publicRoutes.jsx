@@ -1,6 +1,5 @@
 import App from "../App";
 import Login from "../pages/Public/Login";
-import Register from "../components/Register";
 import Shop from "../pages/Public/shop/Shop";
 
 import PublicLayout from "../layouts/PublicLayout";
@@ -8,6 +7,8 @@ import About from "../pages/Public/About";
 import Home from "../pages/Public/Home";
 import Product from "../pages/Public/shop/Product";
 import Cart from "../pages/Public/Cart";
+import Register from "../pages/Public/Register";
+import Panel from "../pages/Public/Panel";
 
 const publicRoutes = [
   {
@@ -25,6 +26,7 @@ const publicRoutes = [
           { path: "login", element: <Login /> },
           { path: "Register", element: <Register /> },
           { path: "cart", element: <Cart /> },
+          { path: "panel", element: <Panel /> },
         ],
       },
     ],

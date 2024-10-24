@@ -19,7 +19,7 @@ const userSlice = createSlice({
     setProfile(state, action) {
       state.profile = action.payload;
     },
-    logout(state) {
+    setLogout(state) {
       state.isLoggedIn = false;
       state.isAdmin = false;
       state.profile = {};

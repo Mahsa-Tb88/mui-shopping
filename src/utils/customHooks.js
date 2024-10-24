@@ -10,6 +10,8 @@ export function useRedirectIfLoggedIn() {
   useEffect(() => {
     if (isLoggedIn) {
       navigate(isAdmin ? "/admin" : "/panel", { replace: true });
+    } else {
+      navigate("/");
     }
   }, [isLoggedIn]);
 

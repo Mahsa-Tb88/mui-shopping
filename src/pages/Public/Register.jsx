@@ -1,7 +1,7 @@
 import React from "react";
-import { useRegister } from "../utils/mutation";
+import { useRegister } from "../../utils/mutation";
 import { useForm } from "react-hook-form";
-import { useRedirectIfLoggedIn } from "../utils/customHooks";
+import { useRedirectIfLoggedIn } from "../../utils/customHooks";
 import { useNavigate } from "react-router-dom";
 import {
   Alert,
