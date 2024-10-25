@@ -10,7 +10,7 @@ export default function LogOut() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    mutate(data, {
+    mutate("", {
       onSuccess() {
         dispatch(userActions.setLogout());
         navigate("/");

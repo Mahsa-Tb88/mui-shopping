@@ -9,6 +9,7 @@ import Product from "../pages/Public/shop/Product";
 import Cart from "../pages/Public/Cart";
 import Register from "../pages/Public/Register";
 import Panel from "../pages/Public/Panel";
+import LogOut from "../pages/Public/LogOut";
 
 const publicRoutes = [
   {
@@ -27,6 +28,8 @@ const publicRoutes = [
           { path: "Register", element: <Register /> },
           { path: "cart", element: <Cart /> },
           { path: "panel", element: <Panel /> },
+          { path: "panel/profile", element: <Panel /> },
+          { path: "logout", element: <LogOut /> },
         ],
       },
     ],

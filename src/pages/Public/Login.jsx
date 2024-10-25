@@ -33,7 +33,6 @@ export default function Login() {
       remember: true,
     },
   });
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   async function onSubmit(data) {
@@ -48,6 +47,7 @@ export default function Login() {
   }
 
   const isLoggedIn = useRedirectIfLoggedIn();
+  console.log("islogedinredirect.....", isLoggedIn);
   if (isLoggedIn) {
     return;
   }
