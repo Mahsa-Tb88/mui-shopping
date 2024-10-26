@@ -25,4 +25,5 @@ export function useIsLoggednIn() {
       navigate("/login");
     }
   }, [isLoggedIn]);
+  return isLoggedIn;
 }

@@ -18,3 +18,9 @@ export function useLogout() {
     mutationFn: () => axios.post("/auth/logout"),
   });
 }
+
+export function useUpdateProfile() {
+  return useMutation({
+    mutationFn: (data) => axios.put("/users/" + data.id, data),
+  });
+}

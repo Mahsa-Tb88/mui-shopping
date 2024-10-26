@@ -1,4 +1,4 @@
-import React, { Profiler } from "react";
+import React from "react";
 import MyList from "./Customized/MyList";
 import {
   ListItem,
@@ -12,7 +12,7 @@ import { Dashboard, Logout, PersonPin } from "@mui/icons-material";
 export default function PanelLink(handleClose = () => {}) {
   return (
     <MyList>
-      <ListItem>
+      <ListItem disablePadding>
         <ListItemButton
           LinkComponent={NavLink}
           to="/panel"
@@ -25,7 +25,7 @@ export default function PanelLink(handleClose = () => {}) {
           <ListItemText primary="Dashboard" />
         </ListItemButton>
       </ListItem>
-      <ListItem>
+      <ListItem disablePadding>
         <ListItemButton
           LinkComponent={NavLink}
           to="/panel/profile"
@@ -37,7 +37,7 @@ export default function PanelLink(handleClose = () => {}) {
           <ListItemText primary="Profile" />
         </ListItemButton>
       </ListItem>
-      <ListItem>
+      <ListItem disablePadding>
         <ListItemButton
           LinkComponent={NavLink}
           to="/logout"

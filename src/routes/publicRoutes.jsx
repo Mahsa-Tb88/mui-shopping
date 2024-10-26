@@ -10,6 +10,8 @@ import Cart from "../pages/Public/Cart";
 import Register from "../pages/Public/Register";
 import Panel from "../pages/Public/Panel";
 import LogOut from "../pages/Public/LogOut";
+import Profile from "../components/Profile";
+import Dashboard from "../components/Dashbord";
 
 const publicRoutes = [
   {
@@ -27,8 +29,15 @@ const publicRoutes = [
           { path: "login", element: <Login /> },
           { path: "Register", element: <Register /> },
           { path: "cart", element: <Cart /> },
-          { path: "panel", element: <Panel /> },
-          { path: "panel/profile", element: <Panel /> },
+          {
+            path: "panel",
+            element: <Panel />,
+            children: [
+              { index: true, element: <Dashboard /> },
+              { path: "profile", element: <Profile /> },
+            ],
+          },
+          ,
           { path: "logout", element: <LogOut /> },
         ],
       },
