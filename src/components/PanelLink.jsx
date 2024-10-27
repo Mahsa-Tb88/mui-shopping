@@ -9,7 +9,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { Dashboard, Logout, PersonPin } from "@mui/icons-material";
 
-export default function PanelLink(handleClose = () => {}) {
+export default function PanelLink({ handleClose = () => {} }) {
   return (
     <MyList>
       <ListItem disablePadding>
