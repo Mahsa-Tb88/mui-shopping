@@ -8,6 +8,7 @@ import LoadingError from "../LoadingError";
 export default function Products() {
   const shop = useSelector((state) => state.shop);
   const totalPage = Math.ceil(shop.totalProducts / shop.limit);
+  console.log("...", totalPage);
 
   const [searchParams, setSearchParams] = useSearchParams();
 

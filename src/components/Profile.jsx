@@ -33,6 +33,8 @@ export default function Profile() {
       confirm: "",
     },
   });
+
+
   function onSubmit(data) {
     const { firstname, lastname } = data;
     data.id = profile._id;
@@ -43,6 +45,8 @@ export default function Profile() {
       },
     });
   }
+
+  
   return (
     <Paper sx={{ p: 3 }}>
       <Stack spacing={3} component="form" onSubmit={handleSubmit(onSubmit)}>

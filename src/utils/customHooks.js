@@ -27,3 +27,15 @@ export function useIsLoggednIn() {
   }, [isLoggedIn]);
   return isLoggedIn;
 }
+
+export function useIsAdmin() {
+  const isAdmin = useSelector((state) => state.user.isAdmin);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate("/");
+    }
+  }, [isAdmin]);
+
+  return isAdmin;
+}

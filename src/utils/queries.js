@@ -15,12 +15,7 @@ axios.interceptors.response.use(
   }
 );
 
-// export function useInitilize() {
-//   return useQuery({
-//     querykey: ["initialize"],
-//     queryfn: () => axios.get("/misc/initialize"),
-//   });
-// }
+
 
 export function useInitialize() {
   return useQuery({

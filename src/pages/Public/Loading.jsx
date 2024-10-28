@@ -17,7 +17,7 @@ export default function Loading() {
       <AlertTitle sx={{ textAlign: "center", mb: 3, fontSize: 20 }}>
         Loading ...
       </AlertTitle>
-      <LinearProgress color="warning" />
+      <LinearProgress color="info" />
     </Alert>
   );
 }
