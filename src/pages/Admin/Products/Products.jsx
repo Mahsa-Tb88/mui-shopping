@@ -3,8 +3,6 @@ import {
   Button,
   Container,
   IconButton,
-  Pagination,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -14,7 +12,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useProducts } from "../../../utils/queries";
 import Loading from "../../Public/Loading";
 import { ChevronLeft, Delete, Edit, Refresh } from "@mui/icons-material";
@@ -22,27 +20,73 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import LoadingError from "../../Public/LoadingError";
 import Add from "@mui/icons-material/Add";
 import MyTable from "../../../components/Customized/MyTable";
-import { useSelector } from "react-redux";
+import { useDeleteProduct } from "../../../utils/mutation";
+import { useQueryClient } from "@tanstack/react-query";
+import Toast from "../../../components/Toast";
 
 export default function Products() {
+  const [limit, setLimit] = useState(5);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = +(searchParams.get("page") ?? 1);
   const navigate = useNavigate();
-  const shop = useSelector((state) => state.shop);
-  const totalPage = Math.ceil(shop.totalProducts / shop.limit);
-  const limit = shop.limit;
+
+  const [successMsg, setSuccessMsg] = useState("");
+  const [failMsg, setFailMsg] = useState("");
+
+  let q = "";
+  let category = "";
   const { isPending, data, error, refetch } = useProducts(
     page,
-    (q = ""),
-    (category = ""),
-    limit,
-    (order = ""),
-    (sort = "")
+    q,
+    category,
+    limit
   );
+  const totalProducts = data?.data?.body?.count;
+  const totalPages = Math.ceil(data?.data?.body?.count / limit);
 
-  const isMobile = useSelector((state) => state.app.isMobile);
+  function setPageHandler(e, p) {
+    setSearchParams(p == 0 ? {} : { page: p + 1 });
+  }
 
-  function pageHandler(e, value) {}
+  function handleLimitChange(e) {
+    setLimit(e.target.value);
+  }
+
+  const mutation = useDeleteProduct();
+  const querryClient = useQueryClient();
+  function deleteHandler(id) {
+    mutation.mutate(id, {
+      onSuccess(data) {
+        setSuccessMsg(data.data.message);
+        setTimeout(() => {
+          setSuccessMsg("");
+        }, 4000);
+        querryClient.invalidateQueries({
+          queryKey: ["products"],
+        });
+      },
+      onError(error) {
+        setFailMsg(error.message);
+        setTimeout(() => {
+          setFailMsg("");
+        }, 4000);
+      },
+    });
+  }
+
+  let status;
+  let message;
+
+  if (mutation.isPending) {
+    status = "pending";
+    message = "Deleting...";
+  } else if (successMsg) {
+    message = successMsg;
+    status = "success";
+  } else if (failMsg) {
+    message = failMsg;
+    status = "fail";
+  }
 
   if (isPending) {
     return (
@@ -77,7 +121,7 @@ export default function Products() {
     );
   }
   const products = data?.data?.body?.products;
-  console.log(data);
+
   return (
     <Container>
       <Box sx={{ textAlign: "left" }}>
@@ -94,6 +138,7 @@ export default function Products() {
         >
           Add Product
         </Button>
+        <Toast status={status} message={message} />
       </Box>
       <MyTable>
         <TableContainer>
@@ -116,13 +161,16 @@ export default function Products() {
                     <TableCell>{p.category.title}</TableCell>
                     <TableCell>{p.price}</TableCell>
                     <TableCell>
-                      <IconButton color="error">
+                      <IconButton
+                        color="error"
+                        onClick={() => deleteHandler(p._id)}
+                      >
                         <Delete />
                       </IconButton>
                       <IconButton
                         color="info"
                         LinkComponent={Link}
-                        onClick={() => navigate("edit")}
+                        to={"edit/" + p._id}
                       >
                         <Edit />
                       </IconButton>
@@ -135,18 +183,21 @@ export default function Products() {
         </TableContainer>
       </MyTable>
       <TablePagination
-        count={totalPage}
-        page={shop.page}
-        color="primary"
-        onChange={pageHandler}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+        component="div"
+        sx={{ display: "flex", justifyContent: "center" }}
+        count={totalProducts}
+        page={page - 1}
+        onPageChange={setPageHandler}
+        rowsPerPage={limit}
+        onRowsPerPageChange={handleLimitChange}
+        rowsPerPageOptions={[
+          { label: 5, value: 5 },
+          { label: 10, value: 10 },
+          { label: 15, value: 15 },
+        ]}
+        labelDisplayedRows={({ page }) => {
+          return "Page " + (page + 1) + " of " + totalPages;
         }}
-        showFirstButton={!isMobile}
-        showLastButton={!isMobile}
-        siblingCount={isMobile ? 0 : 1}
       />
     </Container>
   );

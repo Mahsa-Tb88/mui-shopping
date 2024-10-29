@@ -22,7 +22,7 @@ const adminRoutes = [
             path: "products",
             element: <Products />,
             children: [
-              { path: "edit", element: <EditProduct /> },
+              { path: "edit/:id", element: <EditProduct /> },
               { path: "add", element: <AddProduct /> },
             ],
           },

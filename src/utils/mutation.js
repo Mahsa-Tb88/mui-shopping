@@ -24,3 +24,10 @@ export function useUpdateProfile() {
     mutationFn: (data) => axios.put("/users/" + data.id, data),
   });
 }
+
+
+export function useDeleteProduct() {
+	return useMutation({
+		mutationFn: (id) => axios.delete("/products/" + id),
+	});
+}
