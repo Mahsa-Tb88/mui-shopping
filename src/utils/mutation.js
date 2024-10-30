@@ -25,9 +25,14 @@ export function useUpdateProfile() {
   });
 }
 
-
 export function useDeleteProduct() {
-	return useMutation({
-		mutationFn: (id) => axios.delete("/products/" + id),
-	});
+  return useMutation({
+    mutationFn: (id) => axios.delete("/products/" + id),
+  });
+}
+
+export function useDeleteCategory() {
+  return useMutation({
+    mutationFn: (id) => axios.delete("/categories/" + id),
+  });
 }

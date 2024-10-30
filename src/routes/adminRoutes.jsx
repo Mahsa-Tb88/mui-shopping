@@ -7,6 +7,8 @@ import Users from "../pages/Admin/Users/Users";
 import Categories from "../pages/Admin/Categories/Categories";
 import EditProduct from "../pages/Admin/Products/EditProduct";
 import AddProduct from "../pages/Admin/Products/AddProduct";
+import EditCategory from "../pages/Admin/Categories/EditCategory";
+import AddCategory from "../pages/Admin/Categories/AddCategory";
 
 const adminRoutes = [
   {
@@ -28,7 +30,14 @@ const adminRoutes = [
           },
           { path: "blogs", element: <Blogs /> },
           { path: "users", element: <Users /> },
-          { path: "Categories", element: <Categories /> },
+          {
+            path: "Categories",
+            element: <Categories />,
+            children: [
+              { path: "edit/:id", element: <EditCategory /> },
+              { path: "add", element: <AddCategory /> },
+            ],
+          },
         ],
       },
     ],
