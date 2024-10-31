@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import MyTable from "../../../components/Customized/MyTable";
 import { useDeleteCategory } from "../../../utils/mutation";
-import { useQueryClient } from "@tanstack/react-query";
 import Toast from "../../../components/Toast";
 
 export default function Categories() {
@@ -101,7 +100,7 @@ export default function Categories() {
             <TableBody>
               {categories.map((c) => {
                 return (
-                  <TableRow>
+                  <TableRow key={c._id}>
                     <TableCell>{c.title}</TableCell>
                     <TableCell>{c.slug}</TableCell>
                     <TableCell>
@@ -114,7 +113,7 @@ export default function Categories() {
                       <IconButton
                         color="info"
                         LinkComponent={Link}
-                        to={"edit" + c._id}
+                        to={"edit/" + c._id}
                       >
                         <Edit />
                       </IconButton>

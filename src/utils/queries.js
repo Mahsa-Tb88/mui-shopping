@@ -15,8 +15,6 @@ axios.interceptors.response.use(
   }
 );
 
-
-
 export function useInitialize() {
   return useQuery({
     queryKey: ["initialize"],
@@ -25,7 +23,6 @@ export function useInitialize() {
 }
 
 export function useProducts(page, q, category, limit, order, sort) {
-  console.log("query....", page, limit, q, category, sort, order);
   return useQuery({
     queryKey: ["products", page, limit, q, category, sort, order],
     queryFn: () =>
@@ -38,5 +35,19 @@ export function useProductById(id) {
   return useQuery({
     queryKey: ["products", id],
     queryFn: () => axios.get("/products/" + id),
+  });
+}
+
+export function useBlogs(page, limit) {
+  return useQuery({
+    queryKey: ["blogs", page, limit],
+    queryFn: () => axios.get("/blogs", { params: { page, limit } }),
+  });
+}
+
+export function useUser() {
+  return useQuery({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/users"),
   });
 }

@@ -54,6 +54,7 @@ export default function Products() {
 
   const mutation = useDeleteProduct();
   const querryClient = useQueryClient();
+  
   function deleteHandler(id) {
     mutation.mutate(id, {
       onSuccess(data) {
