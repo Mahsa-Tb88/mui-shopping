@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useCreateUser } from "../../../utils/mutation";
 
-export default function UserForm({ user, type }) {
+export default function UserForm({ user, type, submitForm, mutation }) {
   const {
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm({
     defaultValues: {
       username: user ? user.username : "",
@@ -25,14 +25,13 @@ export default function UserForm({ user, type }) {
     },
   });
 
-  const mutation = useCreateUser();
   return (
     <Paper sx={{ px: 2, py: 4 }}>
-      <Stack component="form" spacing={5}>
+      <Stack component="form" spacing={5} onSubmit={handleSubmit(submitForm)}>
         <TextField
           {...register("username", {
             required: "Please enter username",
-            minLength: { value: 4, message: "atleast 4 charcters" },
+            minLength: { value: 4, message: "at least 4 charcters" },
           })}
           label="username"
           error={errors.username}
