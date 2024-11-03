@@ -24,36 +24,17 @@ import { useQueryClient } from "@tanstack/react-query";
 import Toast from "../../../components/Toast";
 
 export default function Users() {
-  const { isPending, data, error, refetch } = useUser();
+  const [limit, setLimit] = useState(5);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = +(searchParams.get("page") ?? 1);
+  const { isPending, data, error, refetch } = useUser(page, limit);
+
   const users = data?.data?.body.users;
+  const count = data?.data?.body.count;
   console.log(data);
 
-  const [searchParams, setSearchParams] = useSearchParams();
   const [successMsg, setSuccessMsg] = useState("");
   const [failMsg, setFailMsg] = useState("");
-
-  const [limit, setLimit] = useState(5);
-  const page = +(searchParams.get("page") ?? 1);
-
-  if (isPending) {
-    return (
-      <Stack justifyContent="center" alignItems="center">
-        <Loading />
-      </Stack>
-    );
-  } else if (error) {
-    return (
-      <Stack justifyContent="center" alignItems="center">
-        <LoadingError message={error.message} handler={reftetch} />
-      </Stack>
-    );
-  } else if (!users.length) {
-    return (
-      <Stack>
-        <Typography>There is no user</Typography>
-      </Stack>
-    );
-  }
 
   function handleSetPage(e, p) {
     setSearchParams(p == 0 ? {} : { page: p + 1 });
@@ -84,6 +65,26 @@ export default function Users() {
         }, 4000);
       },
     });
+  }
+
+  if (isPending) {
+    return (
+      <Stack justifyContent="center" alignItems="center">
+        <Loading />
+      </Stack>
+    );
+  } else if (error) {
+    return (
+      <Stack justifyContent="center" alignItems="center">
+        <LoadingError message={error.message} handler={reftetch} />
+      </Stack>
+    );
+  } else if (!users.length) {
+    return (
+      <Stack>
+        <Typography>There is no user</Typography>
+      </Stack>
+    );
   }
 
   let status;
@@ -167,11 +168,9 @@ export default function Users() {
               { label: 10, value: 10 },
               { label: 15, value: 15 },
             ]}
-            count={users.length}
+            count={count}
             labelDisplayedRows={({ page }) => {
-              return (
-                "Page " + (page + 1) + " of " + Math.ceil(users.length / limit)
-              );
+              return "Page " + (page + 1) + " of " + Math.ceil(count / limit);
             }}
           />
         </TableContainer>

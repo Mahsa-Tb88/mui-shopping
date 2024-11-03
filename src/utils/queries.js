@@ -45,9 +45,16 @@ export function useBlogs(page, limit) {
   });
 }
 
-export function useUser() {
+export function useUser(page, limit) {
   return useQuery({
-    queryKey: ["users"],
-    queryFn: () => axios.get("/users"),
+    queryKey: ["users", page, limit],
+    queryFn: () => axios.get("/users", { params: { page, limit } }),
+  });
+}
+
+export function useGetUserById(id) {
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: () => axios.get("/users/" + id),
   });
 }

@@ -14,10 +14,8 @@ export default function AddUser() {
   const navigate = useNavigate();
 
   function handleSubmit(data) {
-    console.log("data submit", data);
     mutation.mutate(data, {
       onSuccess(d) {
-        console.log("new user....", d);
         setSuccessMsg(d.data.message);
         setInterval(() => setSuccessMsg(""), 3000);
         queryCliedn.invalidateQueries({

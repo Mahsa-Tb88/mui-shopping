@@ -36,6 +36,45 @@ export default function Blogs() {
   console.log(data);
   const totalBlogs = data?.data?.totalBlogs?.all;
 
+  function setPageHandler(e, p) {
+    setSearchParams(p == 0 ? {} : { page: p + 1 });
+  }
+
+  function handleLimitChange(e) {
+    setLimit(e.target.value);
+    setSearchParams({});
+  }
+
+  const mutation = useDeleteBlog();
+  const querryClient = useQueryClient();
+  function deleteHandler(id) {
+    mutation.mutate(id, {
+      onSuccess(data) {
+        setSuccessMsg(data.data.message);
+        setTimeout(() => setSuccessMsg(""), 4000);
+        querryClient.invalidateQueries({
+          queryKey: ["blogs"],
+        });
+      },
+      onError(error) {
+        setFailMsg(error.message);
+        setTimeout(() => setFailMsg(""), 4000);
+      },
+    });
+  }
+
+  let status;
+  let message;
+  if (mutation.isPending) {
+    status = "pending";
+    message = "Deleting....";
+  } else if (successMsg) {
+    status = "success";
+    message = successMsg;
+  } else if (failMsg) {
+    status = "fail";
+    message = failMsg;
+  }
   if (isPending) {
     return (
       <Stack justifyContent="center" alignItems="center">
@@ -55,47 +94,6 @@ export default function Blogs() {
       </Box>
     );
   }
-
-  function setPageHandler(e, p) {
-    setSearchParams(p == 0 ? {} : { page: p + 1 });
-  }
-
-  function handleLimitChange(e) {
-    setLimit(e.target.value);
-    setSearchParams({});
-  }
-
-  const mutation = useDeleteBlog();
-  // const querryClient = useQueryClient();
-  function deleteHandler(id) {
-    // mutation.mutate(id, {
-    //   onSuccess(data) {
-    //     setSuccessMsg(data.data.message);
-    //     setTimeout(() => setSuccessMsg(""), 4000);
-    //     querryClient.invalidateQueries({
-    //       queryKey: ["blogs"],
-    //     });
-    //   },
-    //   onError(error) {
-    //     setFailMsg(error.message);
-    //     setTimeout(() => setFailMsg(""), 4000);
-    //   },
-    // });
-  }
-
-  let status;
-  let message;
-  // if (mutation.isPending) {
-  //   status = "pending";
-  //   message = "Deleting....";
-  // } else if (successMsg) {
-  //   status = "success";
-  //   message = successMsg;
-  // } else if (failMsg) {
-  //   status = "fail";
-  //   message = failMsg;
-  // }
-
   return (
     <Stack>
       <Box sx={{ textAlign: "left", my: 2 }}>

@@ -52,3 +52,8 @@ export function useCreateUser() {
     mutationFn: (data) => axios.post("/users", data),
   });
 }
+export function useUpdateUser() {
+  return useMutation({
+    mutationFn: (data) => axios.put("/users/" + data.id, data),
+  });
+}
