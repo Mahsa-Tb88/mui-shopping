@@ -30,7 +30,7 @@ export default function Categories() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = +(searchParams.get("page") ?? 1);
-  const totalPages = categories.length / limit;
+  const totalPages = Math.ceil(categories.length / limit);
 
   const { mutate, isPending } = useDeleteCategory();
   const dispatch = useDispatch();

@@ -36,6 +36,11 @@ export function useDeleteCategory() {
     mutationFn: (id) => axios.delete("/categories/" + id),
   });
 }
+export function useCreateCategory() {
+  return useMutation({
+    mutationFn: (data) => axios.post("/categories", data),
+  });
+}
 
 export function useDeleteBlog() {
   return useMutation({
