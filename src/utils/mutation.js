@@ -42,6 +42,12 @@ export function useCreateCategory() {
   });
 }
 
+export function useUpdateCategory() {
+  return useMutation({
+    mutationFn: (data) => axios.put("/categories/" + data.id, data),
+  });
+}
+
 export function useDeleteBlog() {
   return useMutation({
     mutationFn: (id) => axios.delete("/blogs/" + id),

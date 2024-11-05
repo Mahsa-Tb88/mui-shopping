@@ -20,16 +20,18 @@ import { Link, useSearchParams } from "react-router-dom";
 import MyTable from "../../../components/Customized/MyTable";
 import { useDeleteCategory } from "../../../utils/mutation";
 import Toast from "../../../components/Toast";
+import { appActions } from "../../../store/slices/appSlice";
 
 export default function Categories() {
   const categories = useSelector((state) => state.app.categories);
+  console.log("....", categories);
   const [limit, setLimit] = useState(5);
 
   const [successMsg, setSuccessMsg] = useState("");
   const [failMsg, setFailMsg] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = +(searchParams.get("page") ?? 1);
+  let page = +(searchParams.get("page") ?? 1);
   const totalPages = Math.ceil(categories.length / limit);
 
   const { mutate, isPending } = useDeleteCategory();
@@ -39,13 +41,14 @@ export default function Categories() {
       mutate(id, {
         onSuccess(data) {
           setSuccessMsg(data.data.message);
-          setTimeout(() => {
-            setSuccessMsg("");
-          }, 4000);
           const newCategories = categories.filter(
             (category) => category._id != id
           );
+          console.log("newcategories...", newCategories);
           dispatch(appActions.setCategories(newCategories));
+          setTimeout(() => {
+            setSuccessMsg("");
+          }, 4000);
         },
         onerror(error) {
           setFailMsg(error.message);
@@ -55,8 +58,17 @@ export default function Categories() {
     }
   }
 
-  function handleSetPage() {}
-  function handleLimitChange() {}
+  let start = (page - 1) * limit;
+  if (!categories[start] && page > 1) {
+    setSearchParams(page == 2 ? {} : { page: page - 1 });
+  }
+  let updateCategories = categories.slice(start, start + limit);
+  function handleSetPage(e, p) {
+    setSearchParams(p == 0 ? {} : { page: p + 1 });
+  }
+  function handleLimitChange(e) {
+    setLimit(e.target.value);
+  }
 
   let status;
   let message;
@@ -98,7 +110,7 @@ export default function Categories() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {categories.map((c) => {
+              {updateCategories.map((c) => {
                 return (
                   <TableRow key={c._id}>
                     <TableCell>{c.title}</TableCell>

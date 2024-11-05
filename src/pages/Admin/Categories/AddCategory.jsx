@@ -15,11 +15,12 @@ export default function AddCategory() {
   function handleSubmit(data) {
     mutation.mutate(data, {
       onSuccess(d) {
-        console.log(d);
         dispatch(appActions.setCategories([...categories, d.data.body]));
-        navigate("/admin/categories/edit/" + d.data.body._id);
+        setTimeout(
+          () => navigate("/admin/categories/edit/" + d.data.body._id),
+          4000
+        );
       },
-      onError(error) {},
     });
   }
   return (
@@ -28,7 +29,6 @@ export default function AddCategory() {
         New Category
       </Typography>
       <Divider sx={{ my: 3 }} />
-
       <CategoryForm submitForm={handleSubmit} type="new" mutation={mutation} />
     </Stack>
   );

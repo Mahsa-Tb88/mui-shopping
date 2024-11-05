@@ -1,9 +1,13 @@
-import { CircularProgress, Stack, TextField } from "@mui/material";
+import {
+  Alert,
+  CircularProgress,
+  LinearProgress,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React from "react";
-import MyTable from "../../../components/Customized/MyTable";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
-import { Mutation } from "@tanstack/react-query";
 
 export default function CategoryForm({ category, type, submitForm, mutation }) {
   const {
@@ -19,6 +23,19 @@ export default function CategoryForm({ category, type, submitForm, mutation }) {
 
   return (
     <Stack component="form" spacing={3} onSubmit={handleSubmit(submitForm)}>
+      {mutation.isPending ? (
+        <Alert severity="info" icon={false}>
+          <LinearProgress color="primary" sx={{ my: 1 }} />
+        </Alert>
+      ) : mutation.error ? (
+        <Alert severity="error">{mutation.error.message}</Alert>
+      ) : mutation.data ? (
+        <Alert severity="success">{mutation.data.data.message}</Alert>
+      ) : type == "new" ? (
+        <Alert severity="info">Enter a Title and a Category</Alert>
+      ) : (
+        <Alert severity="info">Update Title and Category</Alert>
+      )}
       <TextField
         label="title"
         {...register("title", {
