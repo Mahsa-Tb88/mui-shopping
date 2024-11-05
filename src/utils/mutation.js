@@ -25,9 +25,28 @@ export function useUpdateProfile() {
   });
 }
 
+export async function uploadFile(file) {
+  try {
+    const form = new FormData();
+    form.append("file", file);
+    const { data } = await axios.post("/misc/uploads", form);
+    return data;
+  } catch (e) {
+    return {
+      success: false,
+      message: e.message,
+    };
+  }
+}
+
 export function useDeleteProduct() {
   return useMutation({
     mutationFn: (id) => axios.delete("/products/" + id),
+  });
+}
+export function useCreateProduct() {
+  return useMutation({
+    mutationFn: (data) => axios.post("/products", data),
   });
 }
 
