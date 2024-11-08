@@ -1,7 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material";
 import React from "react";
 import ProductForm from "./ProductForm";
-import { useCreateProduct } from "../../../utils/mutation";
 
 export default function AddProduct() {
   return (
@@ -10,7 +9,7 @@ export default function AddProduct() {
         New Product
       </Typography>
       <Divider sx={{ my: 4 }} />
-      <ProductForm />
+      <ProductForm type="new" />
     </Stack>
   );
 }

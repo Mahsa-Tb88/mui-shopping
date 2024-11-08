@@ -49,6 +49,11 @@ export function useCreateProduct() {
     mutationFn: (data) => axios.post("/products", data),
   });
 }
+export function useUpdateProduct() {
+  return useMutation({
+    mutationFn: (data) => axios.put("/products/" + data.id, data),
+  });
+}
 
 export function useDeleteCategory() {
   return useMutation({

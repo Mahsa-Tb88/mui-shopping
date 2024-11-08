@@ -9,16 +9,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import noImage from "../../../assets/images/no-image.jpg";
-import { uploadFile, useCreateProduct } from "../../../utils/mutation";
+import {
+  uploadFile,
+  useCreateProduct,
+  useUpdateProduct,
+} from "../../../utils/mutation";
 import { LoadingButton } from "@mui/lab";
 export default function ProductForm({ product, type }) {
   const [imageChanged, setImageChanged] = useState("");
   const [selectedImage, setSelectedImage] = useState(noImage);
   const [failMessage, setFailMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const {
     register,
@@ -55,29 +60,66 @@ export default function ProductForm({ product, type }) {
     }
   }
 
-  console.log(",,,,", selectedImage);
-
+  useEffect(() => {
+    if (type == "edit" && product.image) {
+      setSelectedImage(SERVER_URL + product.image);
+    } else if (!product.image) {
+      setValue("image", noImage);
+      setSelectedImage(product.image);
+    }
+  }, []);
   function handleRemoveImage() {
     setSelectedImage(noImage);
     setValue("image", "");
   }
   const createMutation = useCreateProduct();
+  const editMutation = useUpdateProduct();
 
   function onSubmit(data) {
-    data.image = selectedImage.replace(SERVER_URL, "");
-    console.log(data);
+    if (type == "new") {
+      data.image = selectedImage.replace(SERVER_URL, "");
+      console.log(data);
 
-    createMutation.mutate(data, {
-      onSuccess(d) {
-        console.log(d);
-      },
-      onError(error) {},
-    });
+      createMutation.mutate(data, {
+        onSuccess(d) {
+          setSuccessMessage(d.data.message);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        onError(error) {
+          setFailMessage(error.message);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+      });
+    } else {
+      data.id = product._id;
+      data.image = selectedImage.replace(SERVER_URL, "");
+
+      editMutation.mutate(data, {
+        onSuccess(d) {
+          setSuccessMessage(d.data.message);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        onError(error) {
+          setFailMessage(error.message);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+      });
+    }
   }
 
   return (
     <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={5}>
-      {failMessage ? failMessage : ""}
+      {successMessage ? (
+        <Typography variant="h5" color="success">
+          {successMessage}{" "}
+        </Typography>
+      ) : failMessage ? (
+        <Typography variant="h5" color="error">
+          {failMessage}
+        </Typography>
+      ) : (
+        ""
+      )}
       <TextField
         label="Title"
         {...register("title", {
