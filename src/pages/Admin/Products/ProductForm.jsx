@@ -3,7 +3,6 @@ import {
   Button,
   CircularProgress,
   InputAdornment,
-  LinearProgress,
   MenuItem,
   Stack,
   TextField,
@@ -46,7 +45,6 @@ export default function ProductForm({ product, type }) {
   async function handleSelectImage(e) {
     imageField.onChange(e);
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
       setImageChanged(true);
       const result = await uploadFile(file);
@@ -61,13 +59,14 @@ export default function ProductForm({ product, type }) {
   }
 
   useEffect(() => {
-    if (type == "edit" && product.image) {
+    if (type == "edit" && product?.image) {
       setSelectedImage(SERVER_URL + product.image);
-    } else if (!product.image) {
+    } else if (product && !product?.image) {
       setValue("image", noImage);
       setSelectedImage(product.image);
     }
   }, []);
+
   function handleRemoveImage() {
     setSelectedImage(noImage);
     setValue("image", "");
@@ -76,10 +75,11 @@ export default function ProductForm({ product, type }) {
   const editMutation = useUpdateProduct();
 
   function onSubmit(data) {
-    if (type == "new") {
+    if (data.image?.length && imageChanged) {
       data.image = selectedImage.replace(SERVER_URL, "");
-      console.log(data);
+    }
 
+    if (type == "new") {
       createMutation.mutate(data, {
         onSuccess(d) {
           setSuccessMessage(d.data.message);
@@ -93,7 +93,7 @@ export default function ProductForm({ product, type }) {
     } else {
       data.id = product._id;
       data.image = selectedImage.replace(SERVER_URL, "");
-
+      console.log("submit edit form...", data);
       editMutation.mutate(data, {
         onSuccess(d) {
           setSuccessMessage(d.data.message);
