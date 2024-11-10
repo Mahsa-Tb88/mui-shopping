@@ -25,7 +25,7 @@ export default function EditProduct() {
   }
 
   const product = data?.data.body;
-  console.log(data);
+  console.log("edit data",data);
   return (
     <Stack>
       <Typography variant="h4" textAlign="left">

@@ -59,11 +59,13 @@ export default function ProductForm({ product, type }) {
   }
 
   useEffect(() => {
+    console.log("....useeffect...", product);
     if (type == "edit" && product?.image) {
+      console.log("yesss");
       setSelectedImage(SERVER_URL + product.image);
-    } else if (product && !product?.image) {
-      setValue("image", noImage);
-      setSelectedImage(product.image);
+    } else if (type == "edit" && !product.image) {
+      console.log("no image");
+      setSelectedImage(noImage);
     }
   }, []);
 
@@ -80,6 +82,7 @@ export default function ProductForm({ product, type }) {
     }
 
     if (type == "new") {
+      console.log("submit new form...", data);
       createMutation.mutate(data, {
         onSuccess(d) {
           setSuccessMessage(d.data.message);
@@ -92,7 +95,6 @@ export default function ProductForm({ product, type }) {
       });
     } else {
       data.id = product._id;
-      data.image = selectedImage.replace(SERVER_URL, "");
       console.log("submit edit form...", data);
       editMutation.mutate(data, {
         onSuccess(d) {
