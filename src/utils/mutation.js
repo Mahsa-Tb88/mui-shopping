@@ -25,18 +25,24 @@ export function useUpdateProfile() {
   });
 }
 
-export async function uploadFile(file) {
-  try {
-    const form = new FormData();
-    form.append("file", file);
-    const { data } = await axios.post("/misc/uploads", form);
-    return data;
-  } catch (e) {
-    return {
-      success: false,
-      message: e.message,
-    };
-  }
+// export async function uploadFile(file) {
+//   try {
+//     const form = new FormData();
+//     form.append("file", file);
+//     const { data } = await axios.post("/misc/uploads", form);
+//     return data;
+//   } catch (e) {
+//     return {
+//       success: false,
+//       message: e.message,
+//     };
+//   }
+// }
+
+export function useUploadFile() {
+  return useMutation({
+    mutationFn: (formData) => axios.post("/misc/uploads", formData),
+  });
 }
 
 export function useDeleteProduct() {

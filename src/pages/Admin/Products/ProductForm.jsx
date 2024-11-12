@@ -13,11 +13,12 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import noImage from "../../../assets/images/no-image.jpg";
 import {
-  uploadFile,
   useCreateProduct,
   useUpdateProduct,
+  useUploadFile,
 } from "../../../utils/mutation";
 import { LoadingButton } from "@mui/lab";
+import { useQueryClient } from "@tanstack/react-query";
 export default function ProductForm({ product, type }) {
   const [imageChanged, setImageChanged] = useState("");
   const [selectedImage, setSelectedImage] = useState(noImage);
@@ -42,29 +43,39 @@ export default function ProductForm({ product, type }) {
 
   const imageField = { ...register("image") };
 
-  async function handleSelectImage(e) {
+  const mutationUploadFile = useUploadFile();
+  const queryClient = useQueryClient();
+
+  function handleSelectImage(e) {
     imageField.onChange(e);
     const file = e.target.files[0];
     if (file) {
       setImageChanged(true);
-      const result = await uploadFile(file);
-      if (result.success) {
-        setSelectedImage(SERVER_URL + result.body.url);
-      } else {
-        setFailMessage(result.message);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
+      const form = new FormData();
+      form.append("file", file);
+      mutationUploadFile.mutate(form, {
+        onSuccess(d) {
+          setSelectedImage(SERVER_URL + d.data.body.url);
+          queryClient.invalidateQueries({
+            queryKey: ["products"],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["products", product._id],
+          });
+        },
+        onError(error) {
+          setFailMessage(error.message);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        },
+      });
     }
   }
 
   useEffect(() => {
-    console.log("....useeffect...", product);
     if (type == "edit" && product?.image) {
-      console.log("yesss");
       setSelectedImage(SERVER_URL + product.image);
     } else if (type == "edit" && !product.image) {
-      console.log("no image");
       setSelectedImage(noImage);
     }
   }, []);
@@ -100,6 +111,12 @@ export default function ProductForm({ product, type }) {
         onSuccess(d) {
           setSuccessMessage(d.data.message);
           window.scrollTo({ top: 0, behavior: "smooth" });
+          queryClient.invalidateQueries({
+            queryKey: ["products"],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["products", product._id],
+          });
         },
         onError(error) {
           setFailMessage(error.message);
