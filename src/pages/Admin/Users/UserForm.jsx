@@ -10,7 +10,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 export default function UserForm({ user, type, submitForm, mutation }) {
-  
   const {
     register,
     formState: { errors },
@@ -25,10 +24,8 @@ export default function UserForm({ user, type, submitForm, mutation }) {
     },
   });
 
- 
-
   return (
-    <Paper sx={{ px: 2, py: 4 }}>
+    <Paper sx={{ px: 2, py: 4, maxWidth: 500 }}>
       <Stack component="form" spacing={5} onSubmit={handleSubmit(submitForm)}>
         <TextField
           {...register("username", {

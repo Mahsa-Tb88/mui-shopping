@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   IconButton,
+  Paper,
   Stack,
   Table,
   TableBody,
@@ -116,65 +117,62 @@ export default function Users() {
         </Button>
         <Toast status={status} message={message} />
       </Box>
-      <MyTable>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Username</TableCell>
-                <TableCell>Full name</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Operation</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user) => {
-                return (
-                  <TableRow key={user._id}>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>
-                      {user.firstname + " " + user.lastname}
-                    </TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>
-                      <IconButton
-                        color="error"
-                        onClick={() => deleteHandler(user._id)}
-                      >
-                        <Delete />
-                      </IconButton>
-                      <IconButton
-                        color="info"
-                        LinkComponent={Link}
-                        to={"edit/" + user._id}
-                      >
-                        <Edit />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-          <TablePagination
-            component="div"
-            sx={{ display: "flex", justifyContent: "center" }}
-            onPageChange={handleSetPage}
-            page={page - 1}
-            rowsPerPage={limit}
-            onRowsPerPageChange={handleLimitChange}
-            rowsPerPageOptions={[
-              { label: 5, value: 5 },
-              { label: 10, value: 10 },
-              { label: 15, value: 15 },
-            ]}
-            count={count}
-            labelDisplayedRows={({ page }) => {
-              return "Page " + (page + 1) + " of " + Math.ceil(count / limit);
-            }}
-          />
-        </TableContainer>
-      </MyTable>
+
+      <TableContainer>
+        <MyTable sx={{ minWidth: 600 }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Username</TableCell>
+              <TableCell>Full name</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Operation</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user) => {
+              return (
+                <TableRow key={user._id}>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.firstname + " " + user.lastname}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="error"
+                      onClick={() => deleteHandler(user._id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                    <IconButton
+                      color="info"
+                      LinkComponent={Link}
+                      to={"edit/" + user._id}
+                    >
+                      <Edit />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </MyTable>
+        <TablePagination
+          component="div"
+          sx={{ display: "flex", justifyContent: "center" }}
+          onPageChange={handleSetPage}
+          page={page - 1}
+          rowsPerPage={limit}
+          onRowsPerPageChange={handleLimitChange}
+          rowsPerPageOptions={[
+            { label: 5, value: 5 },
+            { label: 10, value: 10 },
+            { label: 15, value: 15 },
+          ]}
+          count={count}
+          labelDisplayedRows={({ page }) => {
+            return "Page " + (page + 1) + " of " + Math.ceil(count / limit);
+          }}
+        />
+      </TableContainer>
     </Stack>
   );
 }

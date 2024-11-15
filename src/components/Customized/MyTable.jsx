@@ -7,6 +7,7 @@ export default function MyTable(props) {
   const ps = { ...props };
   const sx = ps.sx ?? {};
   delete ps.sx;
+  
   return (
     <Table
       sx={{

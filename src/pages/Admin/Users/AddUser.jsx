@@ -14,6 +14,7 @@ export default function AddUser() {
   const navigate = useNavigate();
 
   function handleSubmit(data) {
+    console.log("data...",data);
     mutation.mutate(data, {
       onSuccess(d) {
         setSuccessMsg(d.data.message);

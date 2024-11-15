@@ -56,15 +56,8 @@ export default function ProductForm({ product, type }) {
       mutationUploadFile.mutate(form, {
         onSuccess(d) {
           setSelectedImage(SERVER_URL + d.data.body.url);
-          queryClient.invalidateQueries({
-            queryKey: ["products"],
-          });
-          queryClient.invalidateQueries({
-            queryKey: ["products", product._id],
-          });
         },
         onError(error) {
-          setFailMessage(error.message);
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;
         },
@@ -93,10 +86,16 @@ export default function ProductForm({ product, type }) {
     }
 
     if (type == "new") {
-      console.log("submit new form...", data);
+      // console.log("submit new form...", data);
       createMutation.mutate(data, {
         onSuccess(d) {
           setSuccessMessage(d.data.message);
+          queryClient.invalidateQueries({
+            queryKey: ["products"],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["products", product._id],
+          });
           window.scrollTo({ top: 0, behavior: "smooth" });
         },
         onError(error) {
@@ -106,7 +105,7 @@ export default function ProductForm({ product, type }) {
       });
     } else {
       data.id = product._id;
-      console.log("submit edit form...", data);
+      // console.log("submit edit form...", data);
       editMutation.mutate(data, {
         onSuccess(d) {
           setSuccessMessage(d.data.message);
