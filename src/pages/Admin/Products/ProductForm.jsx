@@ -129,7 +129,7 @@ export default function ProductForm({ product, type }) {
     <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={5}>
       {successMessage ? (
         <Typography variant="h5" color="success">
-          {successMessage}{" "}
+          {successMessage}
         </Typography>
       ) : failMessage ? (
         <Typography variant="h5" color="error">

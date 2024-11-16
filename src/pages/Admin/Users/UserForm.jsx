@@ -20,7 +20,7 @@ export default function UserForm({ user, type, submitForm, mutation }) {
       firstname: user ? user.firstname : "",
       lastname: user ? user.lastname : "",
       password: user ? user.password : "",
-      role: user ? user.role : "",
+      role: user ? user.role : undefined,
     },
   });
 

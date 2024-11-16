@@ -4,9 +4,7 @@ import {
   Box,
   Button,
   IconButton,
-  Paper,
   Stack,
-  Table,
   TableBody,
   TableCell,
   TableContainer,
@@ -49,23 +47,25 @@ export default function Users() {
   const querryClient = useQueryClient();
 
   function deleteHandler(id) {
-    mutation.mutate(id, {
-      onSuccess(data) {
-        setSuccessMsg(data.data.message);
-        setTimeout(() => {
-          setSuccessMsg("");
-        }, 4000);
-        querryClient.invalidateQueries({
-          queryKey: ["users"],
-        });
-      },
-      onError(error) {
-        setFailMsg(error.message);
-        setTimeout(() => {
-          setFailMsg("");
-        }, 4000);
-      },
-    });
+    if (confirm("Are you sure to delete the user")) {
+      mutation.mutate(id, {
+        onSuccess(data) {
+          setSuccessMsg(data.data.message);
+          setTimeout(() => {
+            setSuccessMsg("");
+          }, 4000);
+          querryClient.invalidateQueries({
+            queryKey: ["users"],
+          });
+        },
+        onError(error) {
+          setFailMsg(error.message);
+          setTimeout(() => {
+            setFailMsg("");
+          }, 4000);
+        },
+      });
+    }
   }
 
   if (isPending) {

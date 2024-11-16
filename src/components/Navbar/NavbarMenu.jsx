@@ -19,11 +19,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function NavbarMenu({ open, handleClose, anchorEl }) {
+  
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const isAdmin = useSelector((state) => state.user.isAdmin);
   
-
-
 
   return (
     <Menu
